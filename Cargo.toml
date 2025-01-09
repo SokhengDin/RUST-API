@@ -1,0 +1,21 @@
+[package]
+name = "hotel_booking"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = ["."]
+
+[dependencies]
+rocket  = { version = "0.5.1" }
+sea-orm = { version = "1.1.0" ,features = [ "sqlx-postgres", "runtime-tokio-rustls", "macros"]}
+sea-orm-migration = { version = "1.1.0", features = ["runtime-tokio-rustls", "sqlx-postgres"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid    = { version = "1.0", features = ["v4", "serde"]}
+rust_decimal = "1.30"
+
+tokio = { version = "1.0", features = ["full"] }
+dotenv = "0.15"
+chrono = { version = "0.4", features = ["serde"] }
+thiserror = "1.0"

@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    networks:
+      - seaorm_network
+    volumes:
+      - postgres_sea:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_sea:
+
+networks:
+  seaorm_network:
