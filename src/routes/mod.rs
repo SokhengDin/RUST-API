@@ -1,1 +1,1 @@
-pub mod hotels;
+pub mod v1;

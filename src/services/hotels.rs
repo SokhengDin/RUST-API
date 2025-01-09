@@ -9,7 +9,7 @@ pub struct HotelService {
 }
 
 impl HotelService {
-    fn new(db   : DatabaseConnection) -> Self {
+    pub fn new(db   : DatabaseConnection) -> Self {
         Self { db }
     }
 
@@ -90,27 +90,19 @@ impl HotelService {
 
         // Tiem
         let now     = Utc::now().with_timezone(&FixedOffset::east(0));
-        let hotel   = match hotels::Entity::find_by_id(id).one(&self.db).await {
+        let hotel = match hotels::Entity::find_by_id(id).one(&self.db).await? {
             Some(h) => h,
             None => return Ok(None),
         };
 
         let mut hotel : hotels::ActiveModel = hotel.into();
 
-        if let name = req.name {
-            hotel.name        = Set(name);
-        }
-        if let address = req.address {
-            hotel.address     = Set(address);
-        }
-        if let rating = req.rating {
-            hotel.rating      = Set(rating);
-        }
-        if req.description.is_some() {
-            hotel.description = Set(req.description);
-        }
-
-        hotel.updated_at      = Set(Some(now));
+        hotel.name              = Set(req.name);
+        hotel.address           = Set(req.address);
+        hotel.rating            = Set(req.rating);
+        hotel.description       = Set(req.description);
+        hotel.updated_at        = Set(Some(now));
+        hotel.updated_at        = Set(Some(now));
 
         let updated: hotels::Model  = hotel.update(&self.db).await?;
 
