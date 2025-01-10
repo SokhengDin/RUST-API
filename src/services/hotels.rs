@@ -1,9 +1,13 @@
-use rocket::{form::name, http::hyper::Error};
 use sea_orm::*;
 use uuid::Uuid;
-use chrono::{Utc, FixedOffset, DateTime};
-use crate::{models::hotels, schemas::hotels::*};
+use chrono::{Utc, FixedOffset};
+use crate::{
+    models::hotels,
+    schemas::hotels::*,
+    services::traits::HotelServiceTrait,
+};
 
+#[derive(Clone)]
 pub struct HotelService {
     db  : DatabaseConnection
 }
@@ -12,16 +16,17 @@ impl HotelService {
     pub fn new(db   : DatabaseConnection) -> Self {
         Self { db }
     }
+}
 
-    pub async fn create_hotel(
+#[async_trait]
+impl HotelServiceTrait for HotelService {
+    async fn create_hotel(
         &self
         , req   : HotelSchemaIn
     ) -> Result<HotelSchemaOut, DbErr> {
+        let now = Utc::now().with_timezone(&FixedOffset::east_opt(0).unwrap());
 
-        // Datetime
-        let now     = Utc::now().with_timezone(&FixedOffset::east(0));
-
-        let hotel   = hotels::ActiveModel {
+        let hotel = hotels::ActiveModel {
             id      : Set(Uuid::new_v4())
             , name      : Set(req.name)
             , address   : Set(req.address)
@@ -41,13 +46,11 @@ impl HotelService {
             , created_at    : res.created_at
             , updated_at    : res.updated_at 
         })
-
     }
 
-
-    pub async fn get_hotel(
+    async fn get_hotel(
         &self
-        ,   id  : Uuid
+        , id  : Uuid
     ) -> Result<Option<HotelSchemaOut>, DbErr> {
         let res = hotels::Entity::find_by_id(id)
             .one(&self.db)
@@ -64,9 +67,7 @@ impl HotelService {
         }))
     }
 
-
-    pub async fn list_hotels(&self) -> Result<Vec<HotelSchemaOut>, DbErr> {
-        
+    async fn list_hotels(&self) -> Result<Vec<HotelSchemaOut>, DbErr> {
         let res = hotels::Entity::find()
             .all(&self.db)
             .await?;
@@ -82,14 +83,13 @@ impl HotelService {
         }).collect())
     }
 
-    pub async fn update_hotel(
+    async fn update_hotel(
         &self
         , id  : Uuid
         , req : HotelSchemaIn
     ) -> Result<Option<HotelSchemaOut>, DbErr> {
-
-        // Tiem
-        let now     = Utc::now().with_timezone(&FixedOffset::east(0));
+        let now = Utc::now().with_timezone(&FixedOffset::east_opt(0).unwrap());
+        
         let hotel = match hotels::Entity::find_by_id(id).one(&self.db).await? {
             Some(h) => h,
             None => return Ok(None),
@@ -97,14 +97,13 @@ impl HotelService {
 
         let mut hotel : hotels::ActiveModel = hotel.into();
 
-        hotel.name              = Set(req.name);
-        hotel.address           = Set(req.address);
-        hotel.rating            = Set(req.rating);
-        hotel.description       = Set(req.description);
-        hotel.updated_at        = Set(Some(now));
-        hotel.updated_at        = Set(Some(now));
+        hotel.name          = Set(req.name);
+        hotel.address       = Set(req.address);
+        hotel.rating        = Set(req.rating);
+        hotel.description   = Set(req.description);
+        hotel.updated_at    = Set(Some(now));
 
-        let updated: hotels::Model  = hotel.update(&self.db).await?;
+        let updated: hotels::Model = hotel.update(&self.db).await?;
 
         Ok(Some(HotelSchemaOut {
             id      : updated.id
@@ -115,12 +114,9 @@ impl HotelService {
             , created_at    : updated.created_at
             , updated_at    : updated.updated_at           
         }))
-        
-
-
     }
 
-    pub async fn delete_hotel(
+    async fn delete_hotel(
         &self
         , id  : Uuid
     ) -> Result<bool, DbErr> {
@@ -130,6 +126,4 @@ impl HotelService {
 
         Ok(res.rows_affected > 0)
     }
-
-
 }
