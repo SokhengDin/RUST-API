@@ -148,10 +148,8 @@ sea-orm-cli migrate generate create_new_table
 
 
 ## Built With
-```
 - [Rust](https://www.rust-lang.org/) - The programming language
 - [Rocket](https://rocket.rs/) - Web framework
 - [SeaORM](https://www.sea-ql.org/SeaORM/) - ORM framework
 - [PostgreSQL](https://www.postgresql.org/) - Database
 - [Utoipa](https://github.com/juhaku/utoipa) - OpenAPI documentation
-```
