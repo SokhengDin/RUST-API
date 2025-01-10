@@ -3,28 +3,49 @@ use utoipa::ToSchema;
 use uuid::Uuid;
 use chrono::{DateTime, FixedOffset};
 
-
-#[derive(Deserialize, Serialize, ToSchema)]
+#[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct GuestSchemaIn {
-    #[schema(example = "First Name")]
-    pub first_name  : String
-    , #[schema(example = "Last Name")]
-      pub last_name : String
-    , #[schema(example = "Email Address")]
-      pub email     : String
-    , #[schema(example = "Phone Number") ]
-      pub phone     : Option<String>
+    #[schema(example = "John")]
+    pub first_name      : String
+    
+    , #[schema(example = "Doe")]
+      pub last_name     : String
+    
+    , #[schema(example = "john.doe@example.com")]
+      pub email         : String
+    
+    , #[schema(example = "+1234567890")]
+      pub phone         : Option<String>
 }
 
-
-#[derive(Deserialize, Serialize, ToSchema)]
+#[derive(Debug, Deserialize, Serialize, ToSchema)]
+#[schema(example = json!({
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1234567890",
+    "created_at": "2024-01-10T12:00:00+00:00",
+    "updated_at": "2024-01-10T12:00:00+00:00"
+}))]
 pub struct GuestSchemaOut {
+    #[schema(example = "550e8400-e29b-41d4-a716-446655440000")]
     pub id              : Uuid
-    , pub first_name    : String
-    , pub last_name     : String
-    , pub email         : String
-    , pub phone         : String
-    , pub created_at    : DateTime<FixedOffset>
+    
+    , #[schema(example = "John")]
+      pub first_name    : String
+    
+    , #[schema(example = "Doe")]
+      pub last_name     : String
+    
+    , #[schema(example = "john.doe@example.com")]
+      pub email         : String
+    
+    , #[schema(example = "+1234567890")]
+      pub phone         : String
+    
+    , #[schema(example = "2024-01-10T12:00:00+00:00")]
+      pub created_at    : DateTime<FixedOffset>
+    
     , pub updated_at    : Option<DateTime<FixedOffset>>
 }
-

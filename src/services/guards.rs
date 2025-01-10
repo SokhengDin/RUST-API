@@ -5,7 +5,9 @@ use std::sync::Arc;
 use crate::services::{
     rooms::RoomService
     , hotels::HotelService
-    , traits::{RoomServiceTrait, HotelServiceTrait}
+    , guests::GuestService
+    , bookings::BookingService
+    , traits::{RoomServiceTrait, HotelServiceTrait, GuestServiceTrait, BookingServiceTrait}
 };
 
 
@@ -31,6 +33,14 @@ impl ServiceGuard {
 
     pub fn hotels(&self) -> impl HotelServiceTrait + '_ {
         HotelService::new((*self.db).clone())
+    }
+
+    pub fn guests(&self) -> impl GuestServiceTrait + '_ {
+        GuestService::new((*self.db).clone())
+    }
+
+    pub fn bookings(&self) -> impl BookingServiceTrait + '_ {
+        BookingService::new((*self.db).clone())
     }
  }
 
