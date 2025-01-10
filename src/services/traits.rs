@@ -1,5 +1,4 @@
 use sea_orm::DbErr;
-use sea_orm::prelude::async_trait;
 use uuid::Uuid;
 use crate::schemas::{rooms::*, hotels::*, guests::*, booking::*};
 use crate::error::ApiError;

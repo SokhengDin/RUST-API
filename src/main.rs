@@ -4,7 +4,6 @@ use std::sync::Arc;
 
 use error::ErrorResponse;
 use rocket::serde::json::Json;
-use routes::v1::routes;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
@@ -44,6 +43,7 @@ async fn main() -> Result<(), rocket::Error> {
     println!("🚀 Starting server on port {}", config.port);
 
     let _rocket: rocket::Rocket<rocket::Ignite> = rocket::build()
+        .configure(rocket::Config::figment().merge(("port", config.port)))
         .manage(db)
         .mount(
             "/api/v1"

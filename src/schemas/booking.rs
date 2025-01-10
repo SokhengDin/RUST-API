@@ -5,7 +5,6 @@ use utoipa::ToSchema;
 use uuid::Uuid;
 use chrono::{DateTime, FixedOffset};
 use crate::models::sea_orm_active_enums::BookingStatus;
-use serde_json::json;
 
 #[derive(Debug, Deserialize, Serialize, ToSchema)]
 pub struct BookingSchemaIn {

@@ -1,8 +1,3 @@
-use sea_orm::DatabaseConnection;
-use crate::services::{
-    hotels::HotelService
-    , rooms::RoomService
-};
 
 pub mod guards;
 pub mod traits;

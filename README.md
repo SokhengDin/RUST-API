@@ -61,7 +61,11 @@ PORT=8000
 
 4. Run the migrations:
 ```bash
-cargo run --bin migration
+sea-orm-cli migrate init
+```
+
+```bash
+cargo run -p migration
 ```
 
 5. Start the server:
