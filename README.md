@@ -1,9 +1,20 @@
-I'll help create a comprehensive README.md for your hotel booking API. Here's a well-structured documentation:
-
-```markdown
 # Hotel Booking API
 
 A RESTful API built with Rust using Rocket and SeaORM for managing hotel bookings. This API provides endpoints for managing hotels, rooms, guests, and bookings.
+
+## ⚡️ Tech Stack
+
+### 🚀 Framework: [Rocket](https://rocket.rs/) v0.5.1
+- Type-safe web framework for Rust
+- Built-in JSON support
+- Robust request handling and routing
+- Zero-cost abstractions
+
+### 🌊 ORM: [SeaORM](https://www.sea-ql.org/SeaORM/) v1.1.0
+- Async & Dynamic
+- Database-agnostic design
+- Type-safe query building
+- Schema management with migrations
 
 ## Features
 
@@ -137,7 +148,7 @@ sea-orm-cli migrate generate create_new_table
 
 
 ## Built With
-
+```
 - [Rust](https://www.rust-lang.org/) - The programming language
 - [Rocket](https://rocket.rs/) - Web framework
 - [SeaORM](https://www.sea-ql.org/SeaORM/) - ORM framework
