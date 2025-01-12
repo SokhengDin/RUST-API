@@ -36,8 +36,8 @@ A RESTful API built with Rust using Rocket and SeaORM for managing hotel booking
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/hotel_booking
-cd hotel_booking
+git clone https://github.com/SokhengDin/RUST-API.git
+cd RUST-API
 ```
 
 2. Setup the database:
@@ -61,7 +61,7 @@ PORT=8000
 
 4. Run the migrations:
 ```bash
-sea-orm-cli migrate init
+export DATABASE_URL="postgres://postgres:seaorm_123@localhost:5432/seaorm_db"
 ```
 
 ```bash
@@ -141,13 +141,6 @@ The application uses PostgreSQL with the following main entities:
 ### Building for Production
 ```bash
 cargo build --release
-```
-
-### Database Migrations
-
-Create a new migration:
-```bash
-sea-orm-cli migrate generate create_new_table
 ```
 
 
